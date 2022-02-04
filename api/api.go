@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 	"sort"
 	"strings"
@@ -22,6 +22,7 @@ func TopTenWordCount(w http.ResponseWriter, r *http.Request) {
 	var inputTextRequest InputText
 	err := json.NewDecoder(r.Body).Decode(&inputTextRequest)
 	if err != nil {
+		fmt.Fprintf(w, "Error in Decode")
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	// Split Words by space
@@ -37,7 +38,7 @@ func TopTenWordCount(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	errMsg := json.NewEncoder(w).Encode(occurenceWordMap)
 	if errMsg != nil {
-		log.Println("Error in API")
+		fmt.Fprintf(w, "Error in creating JSON")
 	}
 }
 
